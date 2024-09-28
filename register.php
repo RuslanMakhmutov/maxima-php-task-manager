@@ -1,9 +1,9 @@
 <?php
 
-$email = htmlentities($_POST['email']);
-$password = htmlentities($_POST['password']);
-$password_confirmation = htmlentities($_POST['password_confirmation']);
-$personal_confirmation = $_POST['personal_confirmation'];
+$email = $_POST['email'] ?? null;
+$password = $_POST['password'] ?? null;
+$password_confirmation = $_POST['password_confirmation'] ?? null;
+$personal_confirmation = $_POST['personal_confirmation'] ?? null;
 
 if (empty($email) || empty($password) || empty($password_confirmation) || empty($personal_confirmation)) {
     die('Вы не заполнили все необходимые поля!');

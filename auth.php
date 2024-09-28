@@ -1,10 +1,10 @@
 <?php
 
-$email = htmlentities($_POST['email']);
-$password = htmlentities($_POST['password']);
+$email = $_POST['email'] ?? null;
+$password = $_POST['password'] ?? null;
 
 if (empty($email) || empty($password)) {
     die('Вы не заполнили все необходимые поля!');
 }
 
-echo "Вы вошли как {$email}";
+echo "Вы вошли как " . htmlentities($email);
