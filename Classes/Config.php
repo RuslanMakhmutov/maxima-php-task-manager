@@ -2,20 +2,33 @@
 
 namespace Classes;
 
+use Exception;
+
 /**
  * Класс для работы с конфигурацией
+ * паттерн Singleton
  */
-class Config
+final class Config
 {
+    private static ?self $instance = null;
     protected array $options = [];
     protected array $env;
 
-    public function __construct()
+    private function __construct()
     {
         // TODO считать данные из файла конфигурации в массив
         $this->env = [];
 
         $this->fillOptions();
+    }
+
+    public static function getInstance(): self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
     protected function fillOptions(): void
@@ -31,6 +44,7 @@ class Config
         ];
     }
 
+
     private function env(string $option, $default = null): mixed
     {
         return $this->env[$option] ?? $default;
@@ -44,6 +58,18 @@ class Config
     public function __get(string $option): mixed
     {
         return $this->get($option);
+    }
+
+    private function __clone()
+    {
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function __wakeup()
+    {
+        throw new Exception("Cannot unserialize singleton");
     }
 
 }
