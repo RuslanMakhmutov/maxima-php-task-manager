@@ -1,6 +1,6 @@
 <?php
 
-namespace Classes;
+namespace app\Helpers;
 
 use Exception;
 
@@ -16,10 +16,32 @@ final class Config
 
     private function __construct()
     {
-        // TODO считать данные из файла конфигурации в массив
-        $this->env = [];
+        $this->loadEnv();
 
         $this->fillOptions();
+
+        // var_dump($this->options);
+    }
+
+    private function loadEnv(): void
+    {
+        $file_path = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '.env';
+        if (!file_exists($file_path)) {
+            die("File .env not found!");
+        }
+
+        $env = file_get_contents($file_path);
+
+        $lines = explode("\n", $env);
+
+        foreach($lines as $line){
+            preg_match("/([^#]+)=(.*)/", $line, $matches);
+            if(isset($matches[2])){
+                putenv(trim($line));
+            }
+        }
+
+        $this->env = getenv();
     }
 
     public static function getInstance(): self
@@ -34,6 +56,10 @@ final class Config
     protected function fillOptions(): void
     {
         $this->options = [
+            'app_name' => $this->env('APP_NAME', 'Application'),
+            'app_url' => $this->env('APP_URL', 'http://localhost'),
+
+            'db_connection' => $this->env('DB_CONNECTION', 'mysql'),
             'db_host' => $this->env('DB_HOST', 'localhost'),
             'db_port' => $this->env('DB_PORT', 3306),
             'db_basename' => $this->env('DB_BASENAME', 'database'),
@@ -47,7 +73,7 @@ final class Config
 
     private function env(string $option, $default = null): mixed
     {
-        return $this->env[$option] ?? $default;
+        return trim($this->env[$option], '\'"') ?? $default;
     }
 
     public function get(string $option): mixed
@@ -55,10 +81,16 @@ final class Config
         return $this->options[$option] ?? null;
     }
 
-    public function __get(string $option): mixed
+    public static function option(string $option): mixed
     {
-        return $this->get($option);
+        $config = self::getInstance();
+        return $config->get($option) ?? null;
     }
+
+    // public function __get(string $option): mixed
+    // {
+    //     return $this->get($option);
+    // }
 
     private function __clone()
     {

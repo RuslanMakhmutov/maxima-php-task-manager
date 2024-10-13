@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Вход</title>
-</head>
-<body>
+<?php require_once __DIR__ . '/../layouts/header.php'; ?>
+
 <h1>Вход</h1>
-<form action="/auth.php" method="post">
+<form action="/auth" method="post">
     <p>
         <input type="email" name="email" placeholder="E-mail" required>
     </p>
@@ -17,5 +12,5 @@
         <button type="submit">Войти</button>
     </p>
 </form>
-</body>
-</html>
+
+<?php require_once __DIR__ . '/../layouts/footer.php'; ?>

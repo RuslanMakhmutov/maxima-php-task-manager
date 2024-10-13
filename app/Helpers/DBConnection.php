@@ -1,6 +1,6 @@
 <?php
 
-namespace Classes;
+namespace app\Helpers;
 
 use Exception;
 use PDO;
@@ -22,29 +22,21 @@ final class DBConnection
     {
         $config = Config::getInstance();
 
-        $dsn = "mysql:host={$config->db_host};port={$config->db_port};dbname={$config->db_name}";
-        return new PDO($dsn, $config->get('db_user'), $config->get('db_password'));
+        $dsn = "{$config->get('db_connection')}:host={$config->get('db_host')};port={$config->get('db_port')};dbname={$config->get('db_basename')}";
+        return new PDO($dsn, $config->get('db_username'), $config->get('db_password'));
     }
 
     /**
      * возврат экземпляра объекта DBConnection
      * @return self
      */
-    private static function getInstance(): self
+    public static function getInstance(): self
     {
         if (self::$instance === null) {
             self::$instance = new self();
         }
 
         return self::$instance;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public static function get(): PDO
-    {
-        return self::getInstance()->connect();
     }
 
     protected function __construct()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Classes;
+namespace app\Helpers;
 
 /**
  * Класс для работы с уведомлениями

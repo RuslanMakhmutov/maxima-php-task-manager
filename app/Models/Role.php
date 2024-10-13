@@ -1,6 +1,6 @@
 <?php
 
-namespace Classes;
+namespace app\Models;
 
 /**
  * Класс для работы с ролями

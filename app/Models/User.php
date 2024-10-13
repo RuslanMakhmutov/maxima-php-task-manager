@@ -1,7 +1,8 @@
 <?php
 
-namespace Classes;
+namespace app\Models;
 
+use app\Helpers\Config;
 use SplObjectStorage;
 use SplObserver;
 use SplSubject;

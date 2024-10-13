@@ -1,12 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Менеджер задач</h1>
-<p><a href="/login.php">Войти</a></p>
-<p><a href="/registration.php">Регистрация</a></p>
-</body>
-</html>
+<?php
+
+use app\Routes\Dispatcher;
+
+spl_autoload_register(function ($class) {
+    $file = __DIR__ . '/' . str_replace('\\', '/', $class) . '.php';
+    if (file_exists($file)) {
+        require $file;
+    }
+});
+
+include_once __DIR__ . '/routes/web.php';
+
+$requestMethod = $_SERVER['REQUEST_METHOD'];
+$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+$dispatcher = new Dispatcher($requestMethod, $requestUri);
+$dispatcher->dispatch();

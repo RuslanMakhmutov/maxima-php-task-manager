@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Регистрация</title>
-</head>
-<body>
+<?php require_once __DIR__ . '/../layouts/header.php'; ?>
+
 <h1>Регистрация</h1>
-<form action="/register.php" method="post">
+<form action="/register" method="post">
     <p>
         <input type="email" name="email" placeholder="E-mail" required>
     </p>
@@ -23,5 +18,5 @@
         <button type="submit">Зарегистрироваться</button>
     </p>
 </form>
-</body>
-</html>
+
+<?php require_once __DIR__ . '/../layouts/footer.php'; ?>
