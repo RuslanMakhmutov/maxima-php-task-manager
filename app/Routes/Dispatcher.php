@@ -39,9 +39,15 @@ class Dispatcher {
             list($controller, $method) = explode('@', $action);
         }
 
+        if ($this->requestMethod == 'GET') {
+            $payload = $_GET;
+        } else {
+            $payload = $_POST;
+        }
+
         $controller = new $controller;
         if (!empty ($method)) {
-            return $controller->$method();
+            return $controller->$method(...$payload);
         }
         return $controller();
     }

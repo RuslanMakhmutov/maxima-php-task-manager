@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title><?php echo $meta_title ?? \app\Helpers\Config::option('app_name') ?></title>
+    <link rel="shortcut icon" href="/favicon.ico" />
 
     <style>
         *, *::before, *::after {

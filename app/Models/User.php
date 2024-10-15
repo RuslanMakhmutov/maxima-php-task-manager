@@ -10,8 +10,13 @@ use SplSubject;
 /**
  * Класс для работы с пользователями
  */
-class User implements SplSubject
+class User extends Model implements SplSubject
 {
+    protected static string $table = 'users';
+    protected static array $fields = [
+        'email',
+        'name',
+    ];
     protected int $id;
     public string $email;
     public string $name;
