@@ -15,7 +15,12 @@ Route::get('/', HomeController::class);
 Route::get('/login', LoginController::class);
 Route::get('/registration', RegistrationController::class);
 
-Route::get('/users', 'UserController@index');
+// Route::get('/users', 'UserController@index');
 
 Route::get('/tasks', [TaskController::class, 'index']);
+Route::get('/tasks/add', [TaskController::class, 'add']);
+Route::post('/tasks/create', [TaskController::class, 'create']);
 Route::get('/tasks/read', [TaskController::class, 'read']);
+Route::get('/tasks/edit', [TaskController::class, 'edit']);
+Route::post('/tasks/update', [TaskController::class, 'update']);
+Route::post('/tasks/delete', [TaskController::class, 'delete']);

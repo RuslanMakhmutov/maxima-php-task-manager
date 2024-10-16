@@ -46,9 +46,9 @@ class Dispatcher {
         }
 
         $controller = new $controller;
-        if (!empty ($method)) {
+        if (!empty($method)) {
             return $controller->$method(...$payload);
         }
-        return $controller();
+        return $controller(...$payload);
     }
 }

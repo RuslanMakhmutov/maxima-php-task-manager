@@ -12,6 +12,11 @@ use SplSubject;
 class Task extends Model implements SplSubject
 {
     protected static string $table = 'tasks';
+    protected static array $fields = [
+        'title',
+        'parent_id',
+        'deadline',
+    ];
     protected int $id;
     protected string $title;
     protected int $user_id;

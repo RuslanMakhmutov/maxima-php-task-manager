@@ -55,13 +55,18 @@ abstract class Model
         return static::query($sql);
     }
 
-    public static function create(array $data): ?object
+    public static function create(array $data): static
     {
-        $fields = implode(', ', static::getFields());
-        $values = implode(', ', array_map(fn ($field) => ":{$field}", static::getFields()));
+        $fields = static::getFields();
+        $fields[] = 'created_at';
+        // TODO - этого не должно быть в абстрактной модели
+        $fields[] = 'user_id';
+
+        $values = implode(', ', array_map(fn ($field) => ":{$field}", $fields));
+        $fields = implode(', ', $fields);
         $sql = 'INSERT INTO ' . static::getTableName() . ' (' . $fields . ') VALUES (' . $values . ') RETURNING *';
         $rows = static::query($sql, $data);
-        return $rows[0] ?? null;
+        return $rows[0];
     }
 
     public static function find(int $id): ?object
@@ -69,5 +74,19 @@ abstract class Model
         $sql = 'SELECT * FROM ' . static::getTableName() . ' WHERE id = :id LIMIT 1';
         $rows = static::query($sql, [':id' => $id]);
         return $rows[0] ?? null;
+    }
+
+    public static function update(int $id, array $data): void
+    {
+        $fields = implode(', ', array_map(fn ($field) => "{$field} = :{$field}", static::getFields()));
+        $sql = 'UPDATE ' . static::getTableName() . ' SET ' . $fields . ' WHERE id = :id';
+        $data['id'] = $id;
+        static::query($sql, $data);
+    }
+
+    public static function delete(int $id): void
+    {
+        $sql = 'DELETE FROM ' . static::getTableName() . ' WHERE id = :id LIMIT 1';
+        static::query($sql, [':id' => $id]);
     }
 }

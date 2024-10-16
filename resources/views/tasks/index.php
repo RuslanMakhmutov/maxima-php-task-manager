@@ -10,4 +10,6 @@
     </ul>
 <?php } ?>
 
+<p><a href="/tasks/add">Создать новую задачу</a></p>
+
 <?php require_once __DIR__ . '/../layouts/footer.php'; ?>

@@ -64,6 +64,7 @@
             <a href="/">Главная страница</a>
             <a href="/login">Вход</a>
             <a href="/registration">Регистрация</a>
+            <a href="/tasks">Список задач</a>
         </nav>
     </header>
     <main>
