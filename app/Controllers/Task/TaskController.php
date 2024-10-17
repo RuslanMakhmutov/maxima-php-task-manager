@@ -4,6 +4,7 @@ namespace app\Controllers\Task;
 
 use app\Helpers\Redirect;
 use app\Models\Task;
+use app\Services\TaskService;
 use app\View;
 
 class TaskController
@@ -17,7 +18,9 @@ class TaskController
 
     public function add(): void
     {
-        View::render('tasks.add');
+        View::render('tasks.add', [
+            'tasks' => TaskService::getTree(Task::all()),
+        ]);
     }
 
     public function create(...$data): void
@@ -40,7 +43,10 @@ class TaskController
     public function edit(int $id): void
     {
         $task = Task::find($id);
-        View::render('tasks.edit', ['task' => $task]);
+        View::render('tasks.edit', [
+            'task' => $task,
+            'tasks' => TaskService::getTree(Task::all()),
+        ]);
     }
 
     public function update(int $id, ...$data): void
@@ -54,5 +60,12 @@ class TaskController
     {
         Task::delete($id);
         Redirect::to('/tasks');
+    }
+
+    public function complete(int $id): void
+    {
+        $task = Task::find($id);
+        $task->complete();
+        Redirect::back();
     }
 }

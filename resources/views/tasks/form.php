@@ -11,11 +11,11 @@
     </p>
     <p>
         <label for="parent_id">Родительская задача</label>
-        <select name="parent_id" id="parent_id" value="<?php echo $task?->getAttr('parent_id') ?? null ?>">
-            <option value="">Без родителя</option>
+        <select name="parent_id" id="parent_id">
+            <option value=""></option>
             <?php foreach ($tasks ?? [] as $item) { ?>
-                <option value="<?php echo $item->getId() ?>" <?php echo $task?->getAttr('parent_id') == $item->getId() ? 'selected' : '' ?>>
-                    <?php echo $item->getAttr('title') ?>
+                <option value="<?php echo $item->getId() ?>" <?php echo ($task?->getAttr('parent_id') ?? null == $item->getId()) ? 'selected' : '' ?>>
+                    <?php echo str_repeat("--", $item->getAttr('level')) . ' ' . $item->getAttr('title') ?>
                 </option>
             <?php } ?>
         </select>

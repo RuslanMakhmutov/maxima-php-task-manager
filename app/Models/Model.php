@@ -51,7 +51,7 @@ abstract class Model
 
     public static function all(): array
     {
-        $sql = 'SELECT * FROM ' . static::getTableName();
+        $sql = 'SELECT * FROM ' . static::getTableName() . ' ORDER BY id';
         return static::query($sql);
     }
 
@@ -86,7 +86,7 @@ abstract class Model
 
     public static function delete(int $id): void
     {
-        $sql = 'DELETE FROM ' . static::getTableName() . ' WHERE id = :id LIMIT 1';
+        $sql = 'DELETE FROM ' . static::getTableName() . ' WHERE id = :id';
         static::query($sql, [':id' => $id]);
     }
 }

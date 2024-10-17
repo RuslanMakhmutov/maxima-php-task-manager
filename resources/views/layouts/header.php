@@ -55,6 +55,30 @@
         main p {
             text-align: justify;
         }
+
+        button {
+            padding: 0.5em 1em;
+            background: darkblue;
+            color: #fff;
+            font-weight: bold;
+            outline: none;
+            border: 1px solid;
+            border-radius: 5px;
+            transition: all 0.1s;
+            cursor: pointer;
+        }
+
+        button:hover,
+        button:focus {
+            background-color: #333399;
+            color: #fff;
+        }
+
+        select {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+        }
     </style>
 </head>
 <body>
