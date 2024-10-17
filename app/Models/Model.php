@@ -40,13 +40,13 @@ abstract class Model
         }
         $connection = DBConnection::getInstance()->connect();
         $query = $connection->prepare($sql);
-        try {
+        // try {
             $query->execute($params);
             return $query->fetchAll(PDO::FETCH_CLASS, $class);
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-        return [];
+        // } catch (PDOException $e) {
+        //     echo $e->getMessage();
+        // }
+        // return [];
     }
 
     public static function all(): array
@@ -55,12 +55,14 @@ abstract class Model
         return static::query($sql);
     }
 
-    public static function create(array $data): static
+    public static function create(array $data, array $fields = []): static
     {
-        $fields = static::getFields();
-        $fields[] = 'created_at';
-        // TODO - этого не должно быть в абстрактной модели
-        $fields[] = 'user_id';
+        if (empty($fields)) {
+            $fields = static::getFields();
+            $fields[] = 'created_at';
+            // TODO - этого не должно быть в абстрактной модели
+            $fields[] = 'user_id';
+        }
 
         $values = implode(', ', array_map(fn ($field) => ":{$field}", $fields));
         $fields = implode(', ', $fields);
@@ -71,8 +73,11 @@ abstract class Model
 
     public static function find(int $id): ?object
     {
-        $sql = 'SELECT * FROM ' . static::getTableName() . ' WHERE id = :id LIMIT 1';
-        $rows = static::query($sql, [':id' => $id]);
+        $sql = 'SELECT * FROM ' . static::getTableName() . ' WHERE id = :id LIMIT :limit';
+        $rows = static::query($sql, [
+            ':id' => $id,
+            ':limit' => 1,
+        ]);
         return $rows[0] ?? null;
     }
 

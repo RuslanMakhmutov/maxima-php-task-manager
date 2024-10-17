@@ -49,6 +49,6 @@ class Dispatcher {
         if (!empty($method)) {
             return $controller->$method(...$payload);
         }
-        return $controller(...$payload);
+        return $controller();
     }
 }

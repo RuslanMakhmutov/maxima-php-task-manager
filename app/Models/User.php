@@ -29,10 +29,34 @@ class User extends Model implements SplSubject
     public function __construct()
     {
         $config = Config::getInstance();
-        $defaultRole = new Role($config->user_default_role);
-        $this->addRole($defaultRole);
+        $defaultRole = new Role($config->get('user_default_role'));
+        $this->roles = [$defaultRole];
 
         $this->observers = new SplObjectStorage();
+    }
+
+    public static function register(string $name, string $email, string $password): static
+    {
+        $fields = ['email', 'name', 'password', 'created_at'];
+
+        $data = [
+            'email' => $email,
+            'name' => $name,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'created_at' => date('Y-m-d H:i:s'),
+        ];
+
+        return parent::create($data, $fields);
+    }
+
+    public static function findByEmail(string $email): ?static
+    {
+        $sql = 'SELECT * FROM ' . static::getTableName() . ' WHERE email = :email LIMIT :limit';
+        $rows = static::query($sql, [
+            ':email' => $email,
+            ':limit' => 1
+        ]);
+        return $rows[0] ?? null;
     }
 
     public function addRole(Role $role): void

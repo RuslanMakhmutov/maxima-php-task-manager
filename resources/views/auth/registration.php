@@ -3,6 +3,9 @@
 <h1>Регистрация</h1>
 <form action="/register" method="post">
     <p>
+        <input type="text" name="name" placeholder="Ваше имя" required>
+    </p>
+    <p>
         <input type="email" name="email" placeholder="E-mail" required>
     </p>
     <p>

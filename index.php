@@ -9,6 +9,15 @@ spl_autoload_register(function ($class) {
     }
 });
 
+session_start();
+
+if (!function_exists('is_auth')) {
+    function is_auth(): bool
+    {
+        return isset($_SESSION['user_id']);
+    }
+}
+
 include_once __DIR__ . '/routes/web.php';
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
