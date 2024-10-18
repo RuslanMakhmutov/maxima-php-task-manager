@@ -1,9 +1,9 @@
 <?php
 
-namespace app\Controllers\Auth;
+namespace App\Controllers\Auth;
 
-use app\Helpers\Redirect;
-use app\Models\User;
+use App\Helpers\Redirect;
+use App\Models\User;
 
 class AuthController
 {

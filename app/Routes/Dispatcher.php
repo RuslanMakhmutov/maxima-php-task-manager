@@ -1,8 +1,8 @@
 <?php
 
-namespace app\Routes;
+namespace App\Routes;
 
-use app\View;
+use App\View;
 
 class Dispatcher {
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace app\Models;
+namespace App\Models;
 
-use app\Helpers\Config;
+use App\Helpers\Config;
 use SplObjectStorage;
 use SplObserver;
 use SplSubject;
@@ -61,6 +61,31 @@ class User extends Model implements SplSubject
         return $rows[0] ?? null;
     }
 
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'user_id', $this->getId());
+    }
+
+    public static function loadRelation($relation, array $users): void
+    {
+        $ids = array_column($users, 'id');
+        $data = self::load($relation, 'user_id', $ids);
+
+        $related = [];
+        foreach ($data as $d) {
+            $related[$d->getAttr('user_id')][] = $d;
+        }
+
+        $var = $relation::getTableName();
+        foreach ($users as $user) {
+            if (!isset($related[$user->getId()])) {
+                continue;
+            }
+
+            $user->{$var} = $related[$user->getId()];
+        }
+    }
+
     public function addRole(Role $role): void
     {
         if (!in_array($role->name, $this->roles)) {
@@ -87,7 +112,7 @@ class User extends Model implements SplSubject
 
     public function notify(string $event = ''): void
     {
-        /** @var SplObserver $observer **/
+        /** @var SplObserver $observer * */
         foreach ($this->observers as $observer) {
             $observer->update($this, $event);
         }

@@ -13,6 +13,8 @@
     <p>Завершена: <?php echo $task->getAttr('finished_at') ?? '-' ?></p>
 <?php } ?>
 
+<p><a href="/users/read?id=<?php echo $task->getAttr('user_id') ?>">Страница автора</a></p>
+
 <p><a href="/tasks/edit?id=<?php echo $task->getId() ?>">Редактировать</a></p>
 
 <form action="/tasks/complete" method="post">

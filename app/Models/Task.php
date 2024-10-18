@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models;
+namespace App\Models;
 
 use SplObjectStorage;
 use SplObserver;
@@ -65,7 +65,7 @@ class Task extends Model implements SplSubject
 
     public function notify(string $event = ''): void
     {
-        /** @var SplObserver $observer **/
+        /** @var SplObserver $observer * */
         foreach ($this->observers as $observer) {
             $observer->update($this, $event);
         }

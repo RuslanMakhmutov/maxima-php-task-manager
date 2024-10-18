@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo $meta_title ?? \app\Helpers\Config::option('app_name') ?></title>
+    <title><?php echo $meta_title ?? \App\Helpers\Config::option('app_name') ?></title>
     <link rel="shortcut icon" href="/favicon.ico" />
 
     <style>
@@ -89,6 +89,7 @@
 
             <?php if (is_auth()) { ?>
                 <a href="/tasks">Список задач</a>
+                <a href="/users">Список пользователей</a>
                 <form action="/logout" method="post" style="margin-left: auto;">
                     <a href="javascript:void(0)" onclick="this.parentNode.submit()">Выход</a>
                 </form>

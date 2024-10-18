@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Observers;
+namespace App\Observers;
 
 use SplObserver;
 use SplSubject;

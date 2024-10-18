@@ -1,14 +1,15 @@
 <?php
 
-use app\Controllers\Auth\AuthController;
-use app\Controllers\Auth\LoginController;
-use app\Controllers\Auth\LogoutController;
-use app\Controllers\Auth\RegisterController;
-use app\Controllers\Auth\RegistrationController;
-use app\Controllers\Auth\SuccessRegistrationController;
-use app\Controllers\HomeController;
-use app\Controllers\Task\TaskController;
-use app\Routes\Route;
+use App\Controllers\Auth\AuthController;
+use App\Controllers\Auth\LoginController;
+use App\Controllers\Auth\LogoutController;
+use App\Controllers\Auth\RegisterController;
+use App\Controllers\Auth\RegistrationController;
+use App\Controllers\Auth\SuccessRegistrationController;
+use App\Controllers\HomeController;
+use App\Controllers\Task\TaskController;
+use App\Controllers\User\UserController;
+use App\Routes\Route;
 
 Route::get('/', HomeController::class);
 Route::get('/login', LoginController::class);
@@ -18,7 +19,8 @@ Route::get('/registration', RegistrationController::class);
 Route::post('/register', RegisterController::class);
 Route::get('/success_registration', SuccessRegistrationController::class);
 
-// Route::get('/users', 'UserController@index');
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/read', [UserController::class, 'read']);
 
 Route::get('/tasks', [TaskController::class, 'index']);
 Route::get('/tasks/add', [TaskController::class, 'add']);

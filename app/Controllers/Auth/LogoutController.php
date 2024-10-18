@@ -1,8 +1,8 @@
 <?php
 
-namespace app\Controllers\Auth;
+namespace App\Controllers\Auth;
 
-use app\Helpers\Redirect;
+use App\Helpers\Redirect;
 
 class LogoutController
 {

@@ -3,9 +3,9 @@
  * Класс для работы с моделями,
  * ActiveRecord
  */
-namespace app\Models;
+namespace App\Models;
 
-use app\Helpers\DBConnection;
+use App\Helpers\DBConnection;
 use PDO;
 use PDOException;
 
@@ -103,5 +103,18 @@ abstract class Model
     {
         $sql = 'DELETE FROM ' . static::getTableName() . ' WHERE id = :id';
         static::query($sql, [':id' => $id]);
+    }
+
+    public static function hasMany($class, string $foreign_key, string $local_key): array
+    {
+        $sql = 'SELECT * FROM ' . $class::getTableName() . ' WHERE ' . $foreign_key . ' = :' . $foreign_key .';';
+        return static::query($sql, [':' . $foreign_key => $local_key], $class);
+    }
+
+    public static function load($related, string $foreign_key, array $ids): array
+    {
+        $in = implode(',', array_fill(0, count($ids), '?'));
+        $sql = 'SELECT * FROM ' . $related::getTableName() . ' WHERE ' . $foreign_key . ' IN (' . $in . ');';
+        return static::query($sql, $ids, $related);
     }
 }

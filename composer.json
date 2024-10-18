@@ -1,0 +1,20 @@
+{
+    "name": "ru.makhmutov/01",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ruslan Makhmutov",
+            "email": "ru.makhmutov@danaflex.ru"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "ext-pdo": "*",
+        "ext-pdo_pgsql": "*"
+    }
+}

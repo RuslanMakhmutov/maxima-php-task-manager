@@ -4,7 +4,7 @@
 
 <?php
 if (!empty($tasks)) {
-    \app\Services\TaskService::renderTree($tasks);
+    \App\Services\TaskService::renderTree($tasks);
 }
 ?>
 
