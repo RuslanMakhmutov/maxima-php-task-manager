@@ -86,14 +86,14 @@
     <header>
         <nav>
             <a href="/">Главная страница</a>
-            <a href="/tasks" style="margin-right: auto;">Список задач</a>
 
             <?php if (is_auth()) { ?>
-                <form action="/logout" method="post">
+                <a href="/tasks">Список задач</a>
+                <form action="/logout" method="post" style="margin-left: auto;">
                     <a href="javascript:void(0)" onclick="this.parentNode.submit()">Выход</a>
                 </form>
             <?php } else { ?>
-                <a href="/login">Вход</a>
+                <a href="/login" style="margin-left: auto;">Вход</a>
                 <a href="/registration">Регистрация</a>
             <?php } ?>
 

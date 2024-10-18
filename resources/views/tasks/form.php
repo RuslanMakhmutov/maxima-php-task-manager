@@ -14,7 +14,7 @@
         <select name="parent_id" id="parent_id">
             <option value=""></option>
             <?php foreach ($tasks ?? [] as $item) { ?>
-                <option value="<?php echo $item->getId() ?>" <?php echo ($task?->getAttr('parent_id') ?? null == $item->getId()) ? 'selected' : '' ?>>
+                <option value="<?php echo $item->getId() ?>" <?php echo ($task?->getAttr('parent_id') ?? null == $item->getId()) ? 'selected' : '' ?> <?php echo (($task?->getId() ?? null) == $item->getId()) ? 'disabled' : '' ?>>
                     <?php echo str_repeat("--", $item->getAttr('level')) . ' ' . $item->getAttr('title') ?>
                 </option>
             <?php } ?>

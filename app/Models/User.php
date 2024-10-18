@@ -17,6 +17,9 @@ class User extends Model implements SplSubject
         'email',
         'name',
     ];
+
+    protected static bool $has_created_at = true;
+
     protected int $id;
     public string $email;
     public string $name;
@@ -37,13 +40,12 @@ class User extends Model implements SplSubject
 
     public static function register(string $name, string $email, string $password): static
     {
-        $fields = ['email', 'name', 'password', 'created_at'];
+        $fields = ['email', 'name', 'password'];
 
         $data = [
             'email' => $email,
             'name' => $name,
             'password' => password_hash($password, PASSWORD_DEFAULT),
-            'created_at' => date('Y-m-d H:i:s'),
         ];
 
         return parent::create($data, $fields);

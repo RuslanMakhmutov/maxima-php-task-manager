@@ -18,6 +18,9 @@ class TaskController
 
     public function add(): void
     {
+        if (!is_auth()) {
+            Redirect::to('/login');
+        }
         View::render('tasks.add', [
             'tasks' => TaskService::getTree(Task::all()),
         ]);
@@ -25,10 +28,11 @@ class TaskController
 
     public function create(...$data): void
     {
+        if (!is_auth()) {
+            Redirect::to('/login');
+        }
         $data['parent_id'] = !empty($data['parent_id']) ? $data['parent_id'] : null;
-        $data['created_at'] = date('Y-m-d H:i:s');
-        // TODO
-        $data['user_id'] = 1;
+        $data['user_id'] = $_SESSION['user_id'];
         $task = Task::create($data);
 
         Redirect::to('/tasks/read?id=' . $task->getId());
@@ -42,6 +46,9 @@ class TaskController
 
     public function edit(int $id): void
     {
+        if (!is_auth()) {
+            Redirect::to('/login');
+        }
         $task = Task::find($id);
         View::render('tasks.edit', [
             'task' => $task,
@@ -51,19 +58,32 @@ class TaskController
 
     public function update(int $id, ...$data): void
     {
+        if (!is_auth()) {
+            Redirect::to('/login');
+        }
         $data['parent_id'] = !empty($data['parent_id']) ? $data['parent_id'] : null;
-        Task::update($id, $data);
+        Task::update($id, $data, [
+            'title',
+            'deadline',
+            'parent_id',
+        ]);
         Redirect::to('/tasks/read?id=' . $id);
     }
 
     public function delete(int $id): void
     {
+        if (!is_auth()) {
+            Redirect::to('/login');
+        }
         Task::delete($id);
         Redirect::to('/tasks');
     }
 
     public function complete(int $id): void
     {
+        if (!is_auth()) {
+            Redirect::to('/login');
+        }
         $task = Task::find($id);
         $task->complete();
         Redirect::back();

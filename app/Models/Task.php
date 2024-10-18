@@ -16,7 +16,11 @@ class Task extends Model implements SplSubject
         'title',
         'parent_id',
         'deadline',
+        'user_id',
     ];
+
+    protected static bool $has_created_at = true;
+
     protected int $id;
     protected string $title;
     protected int $user_id;

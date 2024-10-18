@@ -33,6 +33,11 @@ abstract class Model
         return static::$fields;
     }
 
+    protected static function hasCreatedAt(): bool
+    {
+        return static::$has_created_at ?? false;
+    }
+
     protected static function query(string $sql, array $params = [], string $class = null): array
     {
         if ($class === null) {
@@ -59,12 +64,14 @@ abstract class Model
     {
         if (empty($fields)) {
             $fields = static::getFields();
-            $fields[] = 'created_at';
-            // TODO - этого не должно быть в абстрактной модели
-            $fields[] = 'user_id';
         }
 
-        $values = implode(', ', array_map(fn ($field) => ":{$field}", $fields));
+        if (static::hasCreatedAt()) {
+            $fields[] = 'created_at';
+            $data['created_at'] = date('Y-m-d H:i:s');
+        }
+
+        $values = implode(', ', array_map(fn ($field) => ":{$field}", array_unique($fields)));
         $fields = implode(', ', $fields);
         $sql = 'INSERT INTO ' . static::getTableName() . ' (' . $fields . ') VALUES (' . $values . ') RETURNING *';
         $rows = static::query($sql, $data);
@@ -81,9 +88,12 @@ abstract class Model
         return $rows[0] ?? null;
     }
 
-    public static function update(int $id, array $data): void
+    public static function update(int $id, array $data, array $fields = []): void
     {
-        $fields = implode(', ', array_map(fn ($field) => "{$field} = :{$field}", static::getFields()));
+        if (empty($fields)) {
+            $fields = static::getFields();
+        }
+        $fields = implode(', ', array_map(fn ($field) => "{$field} = :{$field}", array_unique($fields)));
         $sql = 'UPDATE ' . static::getTableName() . ' SET ' . $fields . ' WHERE id = :id';
         $data['id'] = $id;
         static::query($sql, $data);
